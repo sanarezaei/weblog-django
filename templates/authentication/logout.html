@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Logout Confirmation</title>
+</head>
+<body>
+    <h2>Are you sure you want to log out?</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, log me out</button>
+    </form>
+
+    <a href="{% url 'homepage' %}">Cancel</a>
+</body>
+</html>

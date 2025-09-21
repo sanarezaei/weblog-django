@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tag</title>
+</head>
+<body>
+    <h2>Weblog with tag {{ tag.name }}</h2>
+    <ul>
+        {% for weblog in weblogs %}
+            <li>
+                <a href="{{ weblog.get_absolute_url }}">{{ weblog.title }}</a> by {{ weblog.author }}
+            </li>
+        {% empty %}
+            <li>No weblog found with this tag.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

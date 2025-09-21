@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ weblog.title }}</title>
+</head>
+<body>
+    <h1>{{ weblog.title }}</h1>
+
+    {% if weblog.cover %}
+        <img src="{{ weblog.cover.url }}" alt="{{ weblog.title }}" style="max-width:300px;">
+    {% endif %}
+
+    <p>{{ weblog.description }}</p>
+    <p>Author: {{ weblog.author }}</p>
+    <p><strong>Tags:</strong>
+    {% for tag in weblog.tags.all %}
+        <a href="{% url 'weblogs_by_tag' tag.id %}">{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+    {% empty %}
+        No tags
+    {% endfor %}
+    </p>
+
+    <hr>
+    <a href="{% url 'weblog_list' %}">Back to list</a>
+</body>
+</html>

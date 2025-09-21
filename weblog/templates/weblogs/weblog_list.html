@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weblog List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            line-height: 1.6;
+        }
+        .weblog {
+            padding: 15px 0;
+        }
+        .weblog img {
+            max-width: 200px;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .weblog h3 {
+            margin: 0;
+            color: #333;
+        }
+        .weblog p {
+            margin: 5px 0;
+        }
+        .divider {
+            border-bottom: 1px dashed #aaa;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weblogs</h1>
+
+    <form method="POST" action="{% url 'search' %}">
+        {% csrf_token %}
+        <input type="search" name="searched" placeholder="Search" aria-label="Search">
+        <button type="submit">Search</button>
+    </form>
+
+    {% for weblog in weblogs %}
+        <div class="weblog">
+            {% if  weblog.cover %}
+                <img src="{{ weblog.cover.url }}" alt="{{ weblog.title }}">
+            {% endif %}
+
+            <a href="{{ weblog.get_absolute_url }}">
+                <h3><strong>{{ weblog.title }}</strong></h3>
+            </a>
+
+            <p>{{ weblog.description|truncatewords:30 }}</p>
+            <p><em>Author: {{ weblog.author }}</em></p>
+        </div>
+    {% endfor %}
+
+    {% include "weblogs/pagination.html" with page=weblogs %}
+</body>
+</html>

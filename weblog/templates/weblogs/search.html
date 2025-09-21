@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+</head>
+<body>
+    <div>
+        {% if searched %}
+            <h1>You searched for {{ searched }}</h1>
+            <br>
+            {% for weblog_title in weblogs_title %}
+                <h3>{{ weblog_title }}</h3>
+                <p>{{ weblog_title.description }}</p>
+                <h6>{{ weblog_title.author }}</h6>
+                <img src="{{ weblog_title.cover.url }}" alt="{{ weblog_title.title }}" width="300" height="200">
+                  <br>
+            {% endfor %}
+        {% else %}
+            <h1>Hey! You forgot to search for ....</h1>
+        {% endif %}
+    </div>
+</body>
+</html>
