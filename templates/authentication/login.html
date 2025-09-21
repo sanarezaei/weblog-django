@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    {% load socialaccount %}
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -21,7 +22,9 @@
         <input type="submit" value="Submit">
 
     </form>
-
+    <br>
+    <h3>OR</h3>
+    <a href="{% provider_login_url 'google' %}">Login with Google</a>
     
     <p>To register account 
         <a href="{% url 'register' %}">Click here</a>
