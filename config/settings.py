@@ -154,41 +154,43 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
+# Static files (Css, Images)
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
 # DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 LOGIN_REDIRECT_URL = 'homepage'
 LOGOUT_REDIRECT_URL = 'homepage'
 
+# google authentication
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
-# apikey 488223ef-702a-5590-aed9-35cb82dd3556
-
-AWS_ACCESS_KEY_ID = '5d010c6c-5e5a-4f91-9a59-e11ead017cbd'
-AWS_SECRET_ACCESS_KEY = '4467f8d502c282c3e6fee6d49745eeae7476fe51b9db955aee204e4494fcd872'
-AWS_STORAGE_BUCKET_NAME = 'weblog3'
-AWS_S3_ENDPOINT_URL = 'https://s3.ir-thr-at1.arvanstorage.ir'
-
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-AWS_LOCATION = 'static'
-
+# storage setting arvan
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# AWS_ACCESS_KEY_ID = '5d010c6c-5e5a-4f91-9a59-e11ead017cbd'
+# AWS_SECRET_ACCESS_KEY = '4467f8d502c282c3e6fee6d49745eeae7476fe51b9db955aee204e4494fcd872'
+# AWS_STORAGE_BUCKET_NAME = 'weblog3'
+# AWS_S3_ENDPOINT_URL = 'https://s3.ir-thr-at1.arvanstorage.ir'
+# AWS_S3_OBJECT_PARAMETERS = {
+#     'CacheControl': 'max-age=86400',
+# }
+# AWS_LOCATION = 'static'
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, 'mysite/static'),
 # ]
-STATIC_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/{AWS_LOCATION}/"
+# STATIC_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/{AWS_LOCATION}/"
+
+# send email in console
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+DEFAULT_FORM_EMAIL = "webmaster@localhost.com"
+
+# send email with smtp server host
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = "smtp.gmail.com"
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = "your_email@gmail.com"
+# EMAIL_HOST_PASSWORD = "your_password_or_app_password"

@@ -11,6 +11,8 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.conf import settings
 from django.contrib.auth import logout
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse, HttpResponseRedirect
 
 from .forms import UserRegistrationForm, UserLoginForm
 
@@ -19,6 +21,22 @@ User = get_user_model()
 
 def homepage(request):
     return render(request, 'homepage.html')
+
+def welcome_email(to_email):
+    if not to_email:
+        return False
+                
+    try:
+        send_mail(
+            subject="خوش آمدید!",
+            message="از اینکه عضو سایت ما شدید خوشحالیم 🌹",
+            from_email=None,
+            recipient_list=[to_email],
+        )
+    except BadHeaderError:
+        return HttpResponse("Invalid header found")
+    
+    return True
 
 def register(request):
     form = UserRegistrationForm()
@@ -51,8 +69,7 @@ def register(request):
             return redirect('login')
         else:
             messages.error(request, 'Account creation failed. Please try again.')
-
-
+        
     return render(request, 'authentication/register.html',{
         'form': form
     })
@@ -64,10 +81,16 @@ def activate(request, uidb64, token):
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
+
     if user is not None and default_token_generator.check_token(user, token):
         user.is_active=True
         user.save()
+        
+        print("🟢 Activation successful for:", user.email)
+        welcome_email(user.email)
+
         return render(request, 'authentication/email_activation/activation_successful.html')
+    
     else:
         return render(request, 'authentication/email_activation/activation_unsuccessful.html')
 

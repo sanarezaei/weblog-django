@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import HttpResponse
 
 from .models import Weblog, Tag
 
@@ -56,3 +57,5 @@ def weblog_list(request, tag_slug=None):
         'page': weblogs, 
         'weblogs': weblogs
     })
+
+
