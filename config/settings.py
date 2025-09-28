@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from decouple import config
+from .log_logging import LOGGING
 
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -155,9 +156,9 @@ USE_TZ = True
 
 
 # Static files (Css, Images)
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
+# STATIC_URL = 'static/'
+# STATICFILES_DIRS = [BASE_DIR / "static"]
+# STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -168,20 +169,20 @@ LOGOUT_REDIRECT_URL = 'homepage'
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 # storage setting arvan
-# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# AWS_ACCESS_KEY_ID = '5d010c6c-5e5a-4f91-9a59-e11ead017cbd'
-# AWS_SECRET_ACCESS_KEY = '4467f8d502c282c3e6fee6d49745eeae7476fe51b9db955aee204e4494fcd872'
-# AWS_STORAGE_BUCKET_NAME = 'weblog3'
-# AWS_S3_ENDPOINT_URL = 'https://s3.ir-thr-at1.arvanstorage.ir'
-# AWS_S3_OBJECT_PARAMETERS = {
-#     'CacheControl': 'max-age=86400',
-# }
-# AWS_LOCATION = 'static'
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'mysite/static'),
-# ]
-# STATIC_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/{AWS_LOCATION}/"
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = '5d010c6c-5e5a-4f91-9a59-e11ead017cbd'
+AWS_SECRET_ACCESS_KEY = '4467f8d502c282c3e6fee6d49745eeae7476fe51b9db955aee204e4494fcd872'
+AWS_STORAGE_BUCKET_NAME = 'weblog3'
+AWS_S3_ENDPOINT_URL = 'https://s3.ir-thr-at1.arvanstorage.ir'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = 'static'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'mysite/static'),
+]
+STATIC_URL = f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}/{AWS_LOCATION}/"
 
 # send email in console
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
@@ -194,3 +195,8 @@ DEFAULT_FORM_EMAIL = "webmaster@localhost.com"
 # EMAIL_USE_TLS = True
 # EMAIL_HOST_USER = "your_email@gmail.com"
 # EMAIL_HOST_PASSWORD = "your_password_or_app_password"
+
+
+# Logging 
+
+

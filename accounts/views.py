@@ -6,20 +6,29 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import login
 from django.conf import settings
 from django.contrib.auth import logout
 from django.core.mail import send_mail, BadHeaderError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 
 from .forms import UserRegistrationForm, UserLoginForm
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
 
 def homepage(request):
+    logger.debug("این یه لاگ Debug هست")
+    logger.info("این یه لاگ Info هست")
+    logger.warning("این یه لاگ Warning هست")
+    logger.error("این یه لاگ Error هست")
+    logger.critical("این یه لاگ Critical هست")
+
     return render(request, 'homepage.html')
 
 def welcome_email(to_email):
@@ -60,6 +69,7 @@ def register(request):
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                     'token':  default_token_generator.make_token(user),
                 })
+            
             to_email = form.cleaned_data['email']
             email = EmailMessage(
                 mail_subject, message, to=[to_email]
@@ -86,7 +96,6 @@ def activate(request, uidb64, token):
         user.is_active=True
         user.save()
         
-        print("🟢 Activation successful for:", user.email)
         welcome_email(user.email)
 
         return render(request, 'authentication/email_activation/activation_successful.html')
