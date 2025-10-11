@@ -1,6 +1,6 @@
 # LOGGING = {
 #     "version": 1,
-#     "disable_existing_loggers": False, 
+#     "disable_existing_loggers": False,
 #     "formatters": {
 #         "verbose": {
 #             "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
@@ -46,7 +46,7 @@
 #         },
 #         "myproject.custom": {
 #             "handlers": ["console", "mail_admins"],
-#             "level": "INFO", 
+#             "level": "INFO",
 #             "filters": ["special"],
 #         }
 #     }
@@ -62,13 +62,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ___________________________________________
 
 LOGGING = {
-    "version": 1, 
-    "disable_exiting_loggers": False, 
-    "filters": {
-        "require_debug_false": {
-            "()": "django.utils.log.RequireDebugFalse"
-        }
-    },
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
     "formatters": {
         "simple": {
             "format": "{levelname} {asctime:s} {name} {message}",
@@ -77,11 +73,11 @@ LOGGING = {
         "verbose": {
             "format": "{levelname} {asctime:s} {name} {module}.py (liine {lineno:d}) {funcName} {message}",
             "style": "{",
-        }, 
-    }, 
+        },
+    },
     "handlers": {
         "console": {
-            "level": "DEBUG", 
+            "level": "DEBUG",
             "class": "logging.StreamHandler",
             "formatter": "simple",
             "stream": sys.stdout,
@@ -89,30 +85,35 @@ LOGGING = {
         "file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
-            "formatter": "verbose", 
-            "filename": BASE_DIR / "django.log", 
+            "formatter": "verbose",
+            "filename": BASE_DIR / "django.log",
             "encoding": "utf-8",
         },
-    }, 
+    },
     "loggers": {
         "": {
-            "level": "WARNING", 
+            "level": "DEBUG",
             "handlers": ["console", "file"],
         },
         "django": {
-            "level": "INFO", 
-            "handlers": ["console"], 
+            "level": "INFO",
+            "handlers": ["console"],
             "propagate": False,
         },
         "django.template": {
-            "level": "DEBUG", 
-            "handlers": ["file"], 
+            "level": "DEBUG",
+            "handlers": ["file"],
             "propagate": False,
-        }, 
+        },
         "accounts": {
             "level": "DEBUG",
-            "handlers": ["console", "file"], 
-            "propagate": False, 
-        }
+            "handlers": ["console", "file"],
+            "propagate": False,
+        },
+        "weblog": {
+            "level": "DEBUG",
+            "handlers": ["console", "file"],
+            "propagate": False,
+        },
     },
 }

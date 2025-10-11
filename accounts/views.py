@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.sites.shortcuts import get_current_site
-from django.template.loader import render_to_string 
+from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
@@ -23,18 +23,13 @@ User = get_user_model()
 
 
 def homepage(request):
-    logger.debug("این یه لاگ Debug هست")
-    logger.info("این یه لاگ Info هست")
-    logger.warning("این یه لاگ Warning هست")
-    logger.error("این یه لاگ Error هست")
-    logger.critical("این یه لاگ Critical هست")
+    return render(request, "homepage.html")
 
-    return render(request, 'homepage.html')
 
 def welcome_email(to_email):
     if not to_email:
         return False
-                
+
     try:
         send_mail(
             subject="خوش آمدید!",
@@ -44,8 +39,9 @@ def welcome_email(to_email):
         )
     except BadHeaderError:
         return HttpResponse("Invalid header found")
-    
+
     return True
+
 
 def register(request):
     form = UserRegistrationForm()
@@ -63,45 +59,51 @@ def register(request):
             mail_subject = "Activate your account."
 
             # the message will render what is written in authentication/email_activation/activate_email_message.html
-            message = render_to_string('authentication/email_activation/activate_email_message.html', {
-                    'user': form.cleaned_data['username'],
-                    'domain': current_site.domain,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                    'token':  default_token_generator.make_token(user),
-                })
-            
-            to_email = form.cleaned_data['email']
-            email = EmailMessage(
-                mail_subject, message, to=[to_email]
+            message = render_to_string(
+                "authentication/email_activation/activate_email_message.html",
+                {
+                    "user": form.cleaned_data["username"],
+                    "domain": current_site.domain,
+                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                    "token": default_token_generator.make_token(user),
+                },
             )
+
+            to_email = form.cleaned_data["email"]
+            email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
-            messages.success(request, 'Account created successfully. Please check your email to activate your account.')
-            return redirect('login')
+            messages.success(
+                request,
+                "Account created successfully. Please check your email to activate your account.",
+            )
+            return redirect("login")
         else:
-            messages.error(request, 'Account creation failed. Please try again.')
-        
-    return render(request, 'authentication/register.html',{
-        'form': form
-    })
+            messages.error(request, "Account creation failed. Please try again.")
+
+    return render(request, "authentication/register.html", {"form": form})
 
 
 def activate(request, uidb64, token):
     try:
         uid = urlsafe_base64_decode(uidb64).decode()
         user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
 
     if user is not None and default_token_generator.check_token(user, token):
-        user.is_active=True
+        user.is_active = True
         user.save()
-        
+
         welcome_email(user.email)
 
-        return render(request, 'authentication/email_activation/activation_successful.html')
-    
+        return render(
+            request, "authentication/email_activation/activation_successful.html"
+        )
+
     else:
-        return render(request, 'authentication/email_activation/activation_unsuccessful.html')
+        return render(
+            request, "authentication/email_activation/activation_unsuccessful.html"
+        )
 
 
 def login(request):
@@ -111,11 +113,16 @@ def login(request):
             user = form.get_user()
             login(request, user)
 
-            return redirect(request.POST.get('next') or request.get('next') or settings.LOGIN_REDIRECT_URL)
+            return redirect(
+                request.POST.get("next")
+                or request.get("next")
+                or settings.LOGIN_REDIRECT_URL
+            )
         else:
             form = UserLoginForm(request)
-        
-        return render(request, 'authentication/login.html', {'form': form})
+
+        return render(request, "authentication/login.html", {"form": form})
+
 
 def logout_view(request):
     if request.method == "POST":
